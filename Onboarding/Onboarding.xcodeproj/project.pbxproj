@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		689E899D2C21DED40037AA70 /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 689E899B2C21DED40037AA70 /* SF-Pro-Text-Bold.otf */; };
+		689E899E2C21DED40037AA70 /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 689E899C2C21DED40037AA70 /* SF-Pro.ttf */; };
+		689E89A22C21DF6F0037AA70 /* Abel-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 689E89A12C21DF6F0037AA70 /* Abel-Regular.ttf */; };
 		7BC9E4482C21780C0023DFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E4472C21780C0023DFF9 /* AppDelegate.swift */; };
 		7BC9E44A2C21780C0023DFF9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E4492C21780C0023DFF9 /* SceneDelegate.swift */; };
 		7BC9E44C2C21780C0023DFF9 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E44B2C21780C0023DFF9 /* OnboardingViewController.swift */; };
@@ -22,8 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		689E89982C21B3ED0037AA70 /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
-		689E89992C21B3ED0037AA70 /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
+		689E899B2C21DED40037AA70 /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
+		689E899C2C21DED40037AA70 /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
+		689E89A12C21DF6F0037AA70 /* Abel-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Abel-Regular.ttf"; sourceTree = "<group>"; };
 		7BC9E4442C21780C0023DFF9 /* Onboarding.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Onboarding.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BC9E4472C21780C0023DFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BC9E4492C21780C0023DFF9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -123,8 +127,9 @@
 		7BC9E4712C219FA10023DFF9 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				689E89982C21B3ED0037AA70 /* SF-Pro-Text-Bold.otf */,
-				689E89992C21B3ED0037AA70 /* SF-Pro.ttf */,
+				689E89A12C21DF6F0037AA70 /* Abel-Regular.ttf */,
+				689E899B2C21DED40037AA70 /* SF-Pro-Text-Bold.otf */,
+				689E899C2C21DED40037AA70 /* SF-Pro.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -187,8 +192,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				689E89A22C21DF6F0037AA70 /* Abel-Regular.ttf in Resources */,
 				7BC9E4512C21780E0023DFF9 /* Assets.xcassets in Resources */,
+				689E899E2C21DED40037AA70 /* SF-Pro.ttf in Resources */,
 				7BC9E4542C21780E0023DFF9 /* Base in Resources */,
+				689E899D2C21DED40037AA70 /* SF-Pro-Text-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,9 +11,11 @@ final class OnboardingViewController: UIViewController {
     
     var currentPage = 0 {
         didSet {
-//            self.updatePageControl()
+            self.updatePageControlAndProgressBar()
         }
     }
+    
+    private var nextPage: Int = 0
 
     private var slides: [OnboardingSlide] = [
         OnboardingSlide(
@@ -41,6 +43,14 @@ final class OnboardingViewController: UIViewController {
             color: UIColor.OnboardingColors.blue
         )
     ]
+        
+    // Drawing stuff
+    private var widthAnchor: NSLayoutConstraint?
+    private var currentPageMultiplier: CGFloat = 0
+    private let shape = CAShapeLayer()
+    private var previousAnimationVAlue: CGFloat  = 0
+    
+    private var pageIndicators: [UIView] = []
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -59,14 +69,83 @@ final class OnboardingViewController: UIViewController {
     
     private lazy var navigationView: UIView = {
         let view = UIView()
-        view.backgroundColor = .red
         view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+                
+    private lazy var pageControlStack: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+                
+        for tag in 1...slides.count {
+            let pageIndicator = UIView()
+            pageIndicator.tag = tag
+            pageIndicator.translatesAutoresizingMaskIntoConstraints = false
+            pageIndicator.backgroundColor = .white
+            pageIndicator.layer.cornerRadius = 4
+            self.pageIndicators.append(pageIndicator)
+            stackView.addArrangedSubview(pageIndicator)
+        }
+        return stackView
+    }()
+    
+    private lazy var skipButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = .abel(ofSize: 18, style: .regular)
+        button.setTitle("Skip", for: .normal)
+        button.addTarget(self, action: #selector(skip), for: .touchUpInside)
+        button.setTitleColor(.white, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var nextButtonView: UIView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "chevron.right.circle.fill")
+        imageView.tintColor = .white
+        imageView.contentMode = .scaleAspectFit
+        imageView.widthAnchor.constraint(equalToConstant: 42).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 42).isActive = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(nextSlide))
+        
+        let view = UIView()
+        view.widthAnchor.constraint(equalToConstant: 58).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 58).isActive = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(tapGesture)
+        view.addSubview(imageView)
+
+        imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
         return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+        self.setShape()
+        self.updatePageControlAndProgressBar()
+    }
+        
+    @objc func nextSlide() {
+        let maxSlide = slides.count
+        if currentPage < maxSlide - 1 {
+            currentPage += 1
+            collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally, animated: true)
+            print("next")
+            print("current page is \(currentPage)")
+        }
+    }
+    
+    @objc func skip() {
+        print("skip")
     }
 }
 
@@ -86,13 +165,79 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
         CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        output?.slideCollectionViewInput(scrollView)
-        print("End")
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        nextPage = indexPath.item
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if nextPage != indexPath.item {
+            currentPage = nextPage
+            print("current page is \(currentPage)")
+        }
+    }
+}
+
+
+private extension OnboardingViewController {
+    private func setShape() {
+        currentPageMultiplier = CGFloat(1) / CGFloat(slides.count)
+        
+        let nextStroke = UIBezierPath(arcCenter: CGPoint(x: 29, y: 29), radius: 28, startAngle: -(.pi/2), endAngle: (.pi * 3)/2, clockwise: true)
+        
+        let trackShape = CAShapeLayer()
+        trackShape.path = nextStroke.cgPath
+        trackShape.fillColor = UIColor.clear.cgColor
+        trackShape.lineWidth = 3
+        trackShape.strokeColor = UIColor.white.cgColor
+        trackShape.opacity = 0.4
+        nextButtonView.layer.addSublayer(trackShape)
+        
+        shape.path = nextStroke.cgPath
+        shape.fillColor = UIColor.clear.cgColor
+        shape.strokeColor = UIColor.white.cgColor
+        shape.lineWidth = 3
+        shape.lineCap = .round
+        shape.strokeStart = 0
+        shape.strokeEnd = 0
+        
+        nextButtonView.layer.addSublayer(shape)
+    }
+    
+    func updatePageControlAndProgressBar() {
+        let currentIndicator = currentPage + 1
+        pageIndicators.forEach { pageIndicator in
+            let tag = pageIndicator.tag
+            
+            pageIndicator.constraints.forEach { constraint in
+                pageIndicator.removeConstraint(constraint)
+            }
+            
+            if currentIndicator == tag {
+                pageIndicator.layer.opacity = 1
+                widthAnchor = pageIndicator.widthAnchor.constraint(equalToConstant: 24)
+            } else {
+                pageIndicator.layer.opacity = 0.5
+                widthAnchor = pageIndicator.widthAnchor.constraint(equalToConstant: 8)
+            }
+            widthAnchor?.isActive = true
+            pageIndicator.heightAnchor.constraint(equalToConstant: 8).isActive = true
+        }
+        
+        let currentIndex = currentPageMultiplier * CGFloat(currentIndicator)
+        
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = previousAnimationVAlue
+        animation.toValue = currentIndex
+        animation.isRemovedOnCompletion = false
+        animation.fillMode = .forwards
+        animation.duration = 0.5
+        shape.add(animation, forKey: "animation")
+        
+        previousAnimationVAlue = currentIndex
     }
 }
 
@@ -102,6 +247,12 @@ private extension OnboardingViewController {
         self.view.addSubview(
             self.collectionView,
             self.navigationView
+        )
+
+        navigationView.addSubview(
+            self.pageControlStack,
+            self.skipButton,
+            self.nextButtonView
         )
         
         NSLayoutConstraint.activate([
@@ -114,6 +265,17 @@ private extension OnboardingViewController {
             self.navigationView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -23),
             self.navigationView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -6),
             self.navigationView.heightAnchor.constraint(equalToConstant: 58),
+            
+            self.skipButton.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor),
+            self.skipButton.bottomAnchor.constraint(equalTo: navigationView.bottomAnchor),
+            self.skipButton.heightAnchor.constraint(equalToConstant: 24),
+            
+            self.pageControlStack.topAnchor.constraint(equalTo: navigationView.topAnchor, constant: 10),
+            self.pageControlStack.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor),
+            
+            self.nextButtonView.topAnchor.constraint(equalTo: navigationView.topAnchor),
+            self.nextButtonView.bottomAnchor.constraint(equalTo: navigationView.bottomAnchor),
+            self.nextButtonView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor),
         ])
     }
     

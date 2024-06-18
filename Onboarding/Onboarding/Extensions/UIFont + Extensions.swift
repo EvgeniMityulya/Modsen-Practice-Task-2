@@ -15,6 +15,10 @@ enum SFProTextStyle: String {
     case bold = "SFProText-Bold"
 }
 
+enum abelStyle: String {
+    case regular = "Abel-Regular"
+}
+
 
 extension UIFont {
     static func sfPro(ofSize size: CGFloat, style: SFProStyle) -> UIFont {
@@ -24,5 +28,8 @@ extension UIFont {
     static func sfProText(ofSize size: CGFloat, style: SFProTextStyle) -> UIFont {
         return UIFont(name: style.rawValue, size: size) ?? .systemFont(ofSize: size)
     }
+    
+    static func abel(ofSize size: CGFloat, style: abelStyle) -> UIFont {
+        return UIFont(name: style.rawValue, size: size) ?? .systemFont(ofSize: size)
+    }
 }
-
