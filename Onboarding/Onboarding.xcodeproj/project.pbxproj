@@ -19,11 +19,11 @@
 		7BC9E4682C21833F0023DFF9 /* UIFont + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E4672C21833F0023DFF9 /* UIFont + Extensions.swift */; };
 		7BC9E46A2C2183860023DFF9 /* UIStackView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E4692C2183860023DFF9 /* UIStackView + Extensions.swift */; };
 		7BC9E4702C218E060023DFF9 /* UIColor + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E46F2C218E060023DFF9 /* UIColor + Extensions.swift */; };
-		7BC9E4762C219FFD0023DFF9 /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7BC9E4742C219FFC0023DFF9 /* SF-Pro-Text-Bold.otf */; };
-		7BC9E4772C219FFD0023DFF9 /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7BC9E4752C219FFD0023DFF9 /* SF-Pro.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		689E89982C21B3ED0037AA70 /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
+		689E89992C21B3ED0037AA70 /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		7BC9E4442C21780C0023DFF9 /* Onboarding.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Onboarding.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BC9E4472C21780C0023DFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BC9E4492C21780C0023DFF9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -38,8 +38,6 @@
 		7BC9E4672C21833F0023DFF9 /* UIFont + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + Extensions.swift"; sourceTree = "<group>"; };
 		7BC9E4692C2183860023DFF9 /* UIStackView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView + Extensions.swift"; sourceTree = "<group>"; };
 		7BC9E46F2C218E060023DFF9 /* UIColor + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extensions.swift"; sourceTree = "<group>"; };
-		7BC9E4742C219FFC0023DFF9 /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Text-Bold.otf"; path = "../../../../.Trash/SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
-		7BC9E4752C219FFD0023DFF9 /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro.ttf"; path = "../../../../.Trash/SF-Pro.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,8 +123,8 @@
 		7BC9E4712C219FA10023DFF9 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				7BC9E4742C219FFC0023DFF9 /* SF-Pro-Text-Bold.otf */,
-				7BC9E4752C219FFD0023DFF9 /* SF-Pro.ttf */,
+				689E89982C21B3ED0037AA70 /* SF-Pro-Text-Bold.otf */,
+				689E89992C21B3ED0037AA70 /* SF-Pro.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -190,9 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BC9E4512C21780E0023DFF9 /* Assets.xcassets in Resources */,
-				7BC9E4772C219FFD0023DFF9 /* SF-Pro.ttf in Resources */,
 				7BC9E4542C21780E0023DFF9 /* Base in Resources */,
-				7BC9E4762C219FFD0023DFF9 /* SF-Pro-Text-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
