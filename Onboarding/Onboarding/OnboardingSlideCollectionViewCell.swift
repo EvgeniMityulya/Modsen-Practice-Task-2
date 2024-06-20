@@ -24,7 +24,7 @@ final class OnboardingSlideCollectionViewCell: UICollectionViewCell {
     private lazy var textStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .fillProportionally
         stackView.spacing = 12
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,14 +49,7 @@ final class OnboardingSlideCollectionViewCell: UICollectionViewCell {
         label.font = .sfProText(ofSize: 24, style: .bold)
         return label
     }()
-    
-    private lazy var navigationView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
+
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
@@ -71,7 +64,6 @@ final class OnboardingSlideCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupUI()
-        self.backgroundColor = .green
     }
 
     required init?(coder: NSCoder) {
@@ -105,13 +97,17 @@ private extension OnboardingSlideCollectionViewCell {
         )
         
         NSLayoutConstraint.activate([
+            
             self.stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 35),
             self.stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             self.stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             self.stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -103),
             
-            self.textStackView.leadingAnchor.constraint(equalTo: self.stackView.leadingAnchor, constant: 24),
-            self.textStackView.trailingAnchor.constraint(equalTo: self.stackView.trailingAnchor, constant: -24),
+            self.titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
+            self.titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+            
+            self.descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
+            self.descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
             
             self.slideImageView.leadingAnchor.constraint(equalTo: self.stackView.leadingAnchor),
             self.slideImageView.trailingAnchor.constraint(equalTo: self.stackView.trailingAnchor),

@@ -12,16 +12,18 @@ final class OnboardingViewController: UIViewController {
     var currentPage = 0 {
         didSet {
             self.updatePageControlAndProgressBar()
+            self.collectionView.scrollToItem(at: IndexPath(item: self.currentPage, section: 0), at: .centeredHorizontally, animated: true)
+            self.isLastSlide()
         }
     }
     
     private var nextPage: Int = 0
-
+    
     private var slides: [OnboardingSlide] = [
         OnboardingSlide(
             title: "Your first car without a driver's license",
             desciption: "Goes to meet people who just got their license",
-            image: UIImage(named: Image.Onboarding.first), 
+            image: UIImage(named: Image.Onboarding.first),
             color: UIColor.OnboardingColors.yellow
         ),
         OnboardingSlide(
@@ -43,7 +45,7 @@ final class OnboardingViewController: UIViewController {
             color: UIColor.OnboardingColors.blue
         )
     ]
-        
+    
     // Drawing stuff
     private var widthAnchor: NSLayoutConstraint?
     private var currentPageMultiplier: CGFloat = 0
@@ -72,14 +74,14 @@ final class OnboardingViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-                
+    
     private lazy var pageControlStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 5
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
-                
+        
         for tag in 1...slides.count {
             let pageIndicator = UIView()
             pageIndicator.tag = tag
@@ -120,7 +122,7 @@ final class OnboardingViewController: UIViewController {
         view.isUserInteractionEnabled = true
         view.addGestureRecognizer(tapGesture)
         view.addSubview(imageView)
-
+        
         imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
@@ -133,19 +135,23 @@ final class OnboardingViewController: UIViewController {
         self.setShape()
         self.updatePageControlAndProgressBar()
     }
-        
+    
     @objc func nextSlide() {
         let maxSlide = slides.count
         if currentPage < maxSlide - 1 {
             currentPage += 1
-            collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally, animated: true)
+            self.updateCollectionViewPages()
             print("next")
             print("current page is \(currentPage)")
+        } else if currentPage == maxSlide - 1 {
+            print("last")
+            // MARK: - Тут Переход на следующий контроллер
         }
     }
     
     @objc func skip() {
-        print("skip")
+        self.currentPage = self.slides.count - 1
+        self.collectionView.scrollToItem(at: IndexPath(item: self.currentPage, section: 0), at: .centeredHorizontally, animated: true)
     }
 }
 
@@ -169,14 +175,19 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
         0
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        nextPage = indexPath.item
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let width = scrollView.frame.width
+        self.currentPage = Int(scrollView.contentOffset.x / width)
+        
     }
     
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if nextPage != indexPath.item {
-            currentPage = nextPage
-            print("current page is \(currentPage)")
+    func updateCollectionViewPages() {
+        self.collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally, animated: true)
+    }
+    
+    func isLastSlide() {
+        if self.currentPage == self.slides.count - 1 {
+            UserDefaultsManager.shared.save(true, forKey: UserDefaultsKey.isOnboardingComplete)
         }
     }
 }
@@ -248,8 +259,8 @@ private extension OnboardingViewController {
             self.collectionView,
             self.navigationView
         )
-
-        navigationView.addSubview(
+        
+        self.navigationView.addSubview(
             self.pageControlStack,
             self.skipButton,
             self.nextButtonView
@@ -279,22 +290,22 @@ private extension OnboardingViewController {
         ])
     }
     
-//    func updateBackground(index: Int) {
-//        switch index {
-//        case 0:
-//            self.view.backgroundColor = self.slides[0].color
-//        case (slides.count - 1):
-//            self.view.backgroundColor = self.slides[slides.count - 1].color
-//        default:
-//            self.view.backgroundColor = .clear
-//        }
-//        print(self.view.backgroundColor)
-//        
-//    }
-//
-//    func updatePageControl() {
-//        self.pageControl.currentPage = self.currentPage
-//        let buttonText = (self.currentPage == self.slides.count - 1) ? ButtonText.getStarted.rawValue : ButtonText.next.rawValue
-//        self.nextButton.setTitle(buttonText, for: .normal)
-//    }
+    //    func updateBackground(index: Int) {
+    //        switch index {
+    //        case 0:
+    //            self.view.backgroundColor = self.slides[0].color
+    //        case (slides.count - 1):
+    //            self.view.backgroundColor = self.slides[slides.count - 1].color
+    //        default:
+    //            self.view.backgroundColor = .clear
+    //        }
+    //        print(self.view.backgroundColor)
+    //
+    //    }
+    //
+    //    func updatePageControl() {
+    //        self.pageControl.currentPage = self.currentPage
+    //        let buttonText = (self.currentPage == self.slides.count - 1) ? ButtonText.getStarted.rawValue : ButtonText.next.rawValue
+    //        self.nextButton.setTitle(buttonText, for: .normal)
+    //    }
 }
