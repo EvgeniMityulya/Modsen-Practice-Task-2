@@ -18,5 +18,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.rootViewController = OnboardingViewController()
         self.window?.makeKeyAndVisible()
     }
+    
+    func isOnboardingComplete() -> UIViewController {
+        if let isOnboardingComplete = UserDefaultsManager.shared.getBool(forKey: UserDefaultsKey.isOnboardingComplete) {
+            return MenuViewController()
+        } else {
+            return OnboardingViewController()
+        }
+    }
 }
 

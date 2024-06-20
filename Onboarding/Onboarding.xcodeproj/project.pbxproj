@@ -22,6 +22,8 @@
 		7BC9E4682C21833F0023DFF9 /* UIFont + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E4672C21833F0023DFF9 /* UIFont + Extensions.swift */; };
 		7BC9E46A2C2183860023DFF9 /* UIStackView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E4692C2183860023DFF9 /* UIStackView + Extensions.swift */; };
 		7BC9E4702C218E060023DFF9 /* UIColor + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E46F2C218E060023DFF9 /* UIColor + Extensions.swift */; };
+		7BC9E4E82C2452EF0023DFF9 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E4E72C2452EF0023DFF9 /* UserDefaultsManager.swift */; };
+		7BC9E4EA2C24576F0023DFF9 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E4E92C24576F0023DFF9 /* MenuViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		7BC9E4672C21833F0023DFF9 /* UIFont + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + Extensions.swift"; sourceTree = "<group>"; };
 		7BC9E4692C2183860023DFF9 /* UIStackView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView + Extensions.swift"; sourceTree = "<group>"; };
 		7BC9E46F2C218E060023DFF9 /* UIColor + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extensions.swift"; sourceTree = "<group>"; };
+		7BC9E4E72C2452EF0023DFF9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		7BC9E4E92C24576F0023DFF9 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +79,9 @@
 			isa = PBXGroup;
 			children = (
 				7BC9E44B2C21780C0023DFF9 /* OnboardingViewController.swift */,
+				7BC9E4E92C24576F0023DFF9 /* MenuViewController.swift */,
 				7BC9E4652C217FB50023DFF9 /* OnboardingSlideCollectionViewCell.swift */,
+				7BC9E4E72C2452EF0023DFF9 /* UserDefaultsManager.swift */,
 				7BC9E4642C217DF30023DFF9 /* Extensions */,
 				7BC9E4602C217C990023DFF9 /* Enums */,
 				7BC9E45F2C217C8D0023DFF9 /* Models */,
@@ -211,8 +217,10 @@
 				7BC9E4702C218E060023DFF9 /* UIColor + Extensions.swift in Sources */,
 				7BC9E46A2C2183860023DFF9 /* UIStackView + Extensions.swift in Sources */,
 				7BC9E44C2C21780C0023DFF9 /* OnboardingViewController.swift in Sources */,
+				7BC9E4E82C2452EF0023DFF9 /* UserDefaultsManager.swift in Sources */,
 				7BC9E4482C21780C0023DFF9 /* AppDelegate.swift in Sources */,
 				7BC9E44A2C21780C0023DFF9 /* SceneDelegate.swift in Sources */,
+				7BC9E4EA2C24576F0023DFF9 /* MenuViewController.swift in Sources */,
 				7BC9E4682C21833F0023DFF9 /* UIFont + Extensions.swift in Sources */,
 				7BC9E4662C217FB50023DFF9 /* OnboardingSlideCollectionViewCell.swift in Sources */,
 				7BC9E4632C217DEE0023DFF9 /* UIView + Extensions.swift in Sources */,
@@ -363,6 +371,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Onboarding/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Onboarding;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -395,6 +404,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Onboarding/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Onboarding;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
