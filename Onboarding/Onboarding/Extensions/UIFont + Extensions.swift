@@ -19,6 +19,10 @@ enum abelStyle: String {
     case regular = "Abel-Regular"
 }
 
+enum anekMalayalamStyle: String {
+    case bold = "AnekMalayalam-Bold"
+}
+
 
 extension UIFont {
     static func sfPro(ofSize size: CGFloat, style: SFProStyle) -> UIFont {
@@ -30,6 +34,10 @@ extension UIFont {
     }
     
     static func abel(ofSize size: CGFloat, style: abelStyle) -> UIFont {
+        return UIFont(name: style.rawValue, size: size) ?? .systemFont(ofSize: size)
+    }
+
+    static func anekMalayalam(ofSize size: CGFloat, style: anekMalayalamStyle) -> UIFont {
         return UIFont(name: style.rawValue, size: size) ?? .systemFont(ofSize: size)
     }
 }

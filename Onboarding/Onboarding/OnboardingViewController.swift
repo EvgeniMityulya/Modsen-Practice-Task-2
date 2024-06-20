@@ -9,6 +9,8 @@ import UIKit
 
 final class OnboardingViewController: UIViewController {
     
+    private var viewModel = OnboardingViewModel()
+    
     var currentPage = 0 {
         didSet {
             self.updatePageControlAndProgressBar()
@@ -16,41 +18,12 @@ final class OnboardingViewController: UIViewController {
             self.isLastSlide()
         }
     }
-    
-    private var nextPage: Int = 0
-    
-    private var slides: [OnboardingSlide] = [
-        OnboardingSlide(
-            title: "Your first car without a driver's license",
-            desciption: "Goes to meet people who just got their license",
-            image: UIImage(named: Image.Onboarding.first),
-            color: UIColor.OnboardingColors.yellow
-        ),
-        OnboardingSlide(
-            title: "Always there: more than 1000 cars in Tbilisi",
-            desciption: "Our company is a leader by the number of cars in the fleet",
-            image: UIImage(named: Image.Onboarding.second),
-            color: UIColor.OnboardingColors.purple
-        ),
-        OnboardingSlide(
-            title: "Do not pay for parking, maintenance and gasoline",
-            desciption: "We will pay for you, all expenses related to the car",
-            image: UIImage(named: Image.Onboarding.third),
-            color: UIColor.OnboardingColors.orange
-        ),
-        OnboardingSlide(
-            title: "29 car models: from Skoda Octavia to Porsche 911",
-            desciption: "Choose between regular car models or exclusive ones",
-            image: UIImage(named: Image.Onboarding.fourth),
-            color: UIColor.OnboardingColors.blue
-        )
-    ]
-    
+        
     // Drawing stuff
     private var widthAnchor: NSLayoutConstraint?
     private var currentPageMultiplier: CGFloat = 0
     private let shape = CAShapeLayer()
-    private var previousAnimationVAlue: CGFloat  = 0
+    private var previousAnimationValue: CGFloat  = 0
     
     private var pageIndicators: [UIView] = []
     
@@ -82,7 +55,7 @@ final class OnboardingViewController: UIViewController {
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        for tag in 1...slides.count {
+        for tag in 1...viewModel.numberOfSlides {
             let pageIndicator = UIView()
             pageIndicator.tag = tag
             pageIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -137,7 +110,7 @@ final class OnboardingViewController: UIViewController {
     }
     
     @objc func nextSlide() {
-        let maxSlide = slides.count
+        let maxSlide = viewModel.numberOfSlides
         if currentPage < maxSlide - 1 {
             currentPage += 1
             self.updateCollectionViewPages()
@@ -146,24 +119,28 @@ final class OnboardingViewController: UIViewController {
         } else if currentPage == maxSlide - 1 {
             print("last")
             // MARK: - Тут Переход на следующий контроллер
+            if let sceneDelegate = self.view.window?.windowScene?.delegate as? SceneDelegate {
+                sceneDelegate.goToMenu()
+            }
         }
     }
     
     @objc func skip() {
-        self.currentPage = self.slides.count - 1
+        self.currentPage = viewModel.numberOfSlides - 1
         self.collectionView.scrollToItem(at: IndexPath(item: self.currentPage, section: 0), at: .centeredHorizontally, animated: true)
     }
 }
 
 extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.slides.count
+        viewModel.numberOfSlides
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OnboardingSlideCollectionViewCell.identifier, for: indexPath) as! OnboardingSlideCollectionViewCell
-        let slide = self.slides[indexPath.row]
-        cell.configure(with: slide)
+        if let slide = viewModel.slide(at: indexPath.row) {
+            cell.configure(with: slide)
+        }
         return cell
     }
     
@@ -178,7 +155,6 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let width = scrollView.frame.width
         self.currentPage = Int(scrollView.contentOffset.x / width)
-        
     }
     
     func updateCollectionViewPages() {
@@ -186,7 +162,7 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func isLastSlide() {
-        if self.currentPage == self.slides.count - 1 {
+        if self.currentPage == viewModel.numberOfSlides - 1 {
             UserDefaultsManager.shared.save(true, forKey: UserDefaultsKey.isOnboardingComplete)
         }
     }
@@ -195,7 +171,7 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
 
 private extension OnboardingViewController {
     private func setShape() {
-        currentPageMultiplier = CGFloat(1) / CGFloat(slides.count)
+        currentPageMultiplier = CGFloat(1) / CGFloat(viewModel.numberOfSlides)
         
         let nextStroke = UIBezierPath(arcCenter: CGPoint(x: 29, y: 29), radius: 28, startAngle: -(.pi/2), endAngle: (.pi * 3)/2, clockwise: true)
         
@@ -241,14 +217,14 @@ private extension OnboardingViewController {
         let currentIndex = currentPageMultiplier * CGFloat(currentIndicator)
         
         let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = previousAnimationVAlue
+        animation.fromValue = previousAnimationValue
         animation.toValue = currentIndex
         animation.isRemovedOnCompletion = false
         animation.fillMode = .forwards
         animation.duration = 0.5
         shape.add(animation, forKey: "animation")
         
-        previousAnimationVAlue = currentIndex
+        previousAnimationValue = currentIndex
     }
 }
 
