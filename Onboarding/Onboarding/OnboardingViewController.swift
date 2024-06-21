@@ -13,8 +13,8 @@ final class OnboardingViewController: UIViewController {
     
     var currentPage = 0 {
         didSet {
+            self.updateCollectionViewPages()
             self.updatePageControlAndProgressBar()
-            self.collectionView.scrollToItem(at: IndexPath(item: self.currentPage, section: 0), at: .centeredHorizontally, animated: true)
             self.isLastSlide()
         }
     }
@@ -113,15 +113,13 @@ final class OnboardingViewController: UIViewController {
         let maxSlide = model.numberOfSlides
         if currentPage < maxSlide - 1 {
             currentPage += 1
-            self.updateCollectionViewPages()
             print("next")
             print("current page is \(currentPage)")
         } else if currentPage == maxSlide - 1 {
             print("last")
             // MARK: - Тут Переход на следующий контроллер
-            if let sceneDelegate = self.view.window?.windowScene?.delegate as? SceneDelegate {
-                sceneDelegate.goToMenu()
-            }
+            let vc = MenuViewController()
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -152,13 +150,21 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
         0
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        0
+    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let width = scrollView.frame.width
         self.currentPage = Int(scrollView.contentOffset.x / width)
     }
     
     func updateCollectionViewPages() {
-        self.collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally, animated: true)
+        let indexPath = IndexPath(item: self.currentPage, section: 0)
+        
+        // MARK: - ERROR
+        self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        print(indexPath)
     }
     
     func isLastSlide() {
@@ -265,23 +271,4 @@ private extension OnboardingViewController {
             self.nextButtonView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor),
         ])
     }
-    
-    //    func updateBackground(index: Int) {
-    //        switch index {
-    //        case 0:
-    //            self.view.backgroundColor = self.slides[0].color
-    //        case (slides.count - 1):
-    //            self.view.backgroundColor = self.slides[slides.count - 1].color
-    //        default:
-    //            self.view.backgroundColor = .clear
-    //        }
-    //        print(self.view.backgroundColor)
-    //
-    //    }
-    //
-    //    func updatePageControl() {
-    //        self.pageControl.currentPage = self.currentPage
-    //        let buttonText = (self.currentPage == self.slides.count - 1) ? ButtonText.getStarted.rawValue : ButtonText.next.rawValue
-    //        self.nextButton.setTitle(buttonText, for: .normal)
-    //    }
 }

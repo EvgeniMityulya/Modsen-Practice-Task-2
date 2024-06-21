@@ -13,33 +13,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
         self.window = UIWindow(windowScene: windowScene)
-        //self.window?.rootViewController = isOnboardingComplete()
-        self.window?.rootViewController = OnboardingViewController()
+        
+        let vc = self.isOnboardingComplete()
+        self.setupViewController(with: vc)
         self.window?.makeKeyAndVisible()
     }
     
     func isOnboardingComplete() -> UIViewController {
-        if let isOnboardingComplete = UserDefaultsManager.shared.getBool(forKey: UserDefaultsKey.isOnboardingComplete) {
-            MenuViewController()
+        if let isOnboardingComplete = UserDefaultsManager.shared.getBool(forKey: UserDefaultsKey.isOnboardingComplete), isOnboardingComplete {
+            return MenuViewController()
         } else {
-            OnboardingViewController()
+            return OnboardingViewController()
         }
     }
+    
+    private func setupViewController(with viewController: UIViewController) {
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.isNavigationBarHidden = true
         
-    func goToMenu() {
-        let menuViewController = MenuViewController()
-        menuViewController.modalPresentationStyle = .fullScreen
-        guard let window = self.window else { return }
-        window.addSubview(menuViewController.view)
-        menuViewController.view.frame = CGRect(x: window.frame.width, y: 0, width: window.frame.width, height: window.frame.height)
-        UIView.animate(withDuration: 0.25, animations: {
-            menuViewController.view.frame = window.frame
-            window.rootViewController?.view.frame = CGRect(x: -window.frame.width, y: 0, width: window.frame.width, height: window.frame.height)
-        }) { _ in
-            window.rootViewController = menuViewController
-        }
+        // TODO: - ERROR IF UNCOMMNET
+//        self.window?.rootViewController = navController
+        
+        self.window?.rootViewController = OnboardingViewController()
     }
 }
 
