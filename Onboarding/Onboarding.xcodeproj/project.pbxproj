@@ -10,8 +10,8 @@
 		689E899D2C21DED40037AA70 /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 689E899B2C21DED40037AA70 /* SF-Pro-Text-Bold.otf */; };
 		689E899E2C21DED40037AA70 /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 689E899C2C21DED40037AA70 /* SF-Pro.ttf */; };
 		689E89A22C21DF6F0037AA70 /* Abel-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 689E89A12C21DF6F0037AA70 /* Abel-Regular.ttf */; };
-		68FF75082C24651C00B4A05B /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FF75072C24651C00B4A05B /* OnboardingViewModel.swift */; };
 		68FF750C2C24798C00B4A05B /* AnekMalayalam-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68FF750B2C24798C00B4A05B /* AnekMalayalam-Bold.ttf */; };
+		68FF750E2C25453B00B4A05B /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FF750D2C25453B00B4A05B /* OnboardingModel.swift */; };
 		7BC9E4482C21780C0023DFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E4472C21780C0023DFF9 /* AppDelegate.swift */; };
 		7BC9E44A2C21780C0023DFF9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E4492C21780C0023DFF9 /* SceneDelegate.swift */; };
 		7BC9E44C2C21780C0023DFF9 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9E44B2C21780C0023DFF9 /* OnboardingViewController.swift */; };
@@ -32,8 +32,8 @@
 		689E899B2C21DED40037AA70 /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
 		689E899C2C21DED40037AA70 /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		689E89A12C21DF6F0037AA70 /* Abel-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Abel-Regular.ttf"; sourceTree = "<group>"; };
-		68FF75072C24651C00B4A05B /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		68FF750B2C24798C00B4A05B /* AnekMalayalam-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AnekMalayalam-Bold.ttf"; sourceTree = "<group>"; };
+		68FF750D2C25453B00B4A05B /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		7BC9E4442C21780C0023DFF9 /* Onboarding.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Onboarding.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BC9E4472C21780C0023DFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BC9E4492C21780C0023DFF9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,14 +63,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		68FF75062C24646300B4A05B /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				68FF75072C24651C00B4A05B /* OnboardingViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		7BC9E43B2C21780C0023DFF9 = {
 			isa = PBXGroup;
 			children = (
@@ -96,7 +88,6 @@
 				7BC9E4E72C2452EF0023DFF9 /* UserDefaultsManager.swift */,
 				7BC9E4642C217DF30023DFF9 /* Extensions */,
 				7BC9E4602C217C990023DFF9 /* Enums */,
-				68FF75062C24646300B4A05B /* ViewModels */,
 				7BC9E45F2C217C8D0023DFF9 /* Models */,
 				7BC9E4612C217CAF0023DFF9 /* Common */,
 			);
@@ -107,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				7BC9E45B2C217A610023DFF9 /* OnboardingSlide.swift */,
+				68FF750D2C25453B00B4A05B /* OnboardingModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -232,9 +224,9 @@
 				7BC9E4702C218E060023DFF9 /* UIColor + Extensions.swift in Sources */,
 				7BC9E46A2C2183860023DFF9 /* UIStackView + Extensions.swift in Sources */,
 				7BC9E44C2C21780C0023DFF9 /* OnboardingViewController.swift in Sources */,
+				68FF750E2C25453B00B4A05B /* OnboardingModel.swift in Sources */,
 				7BC9E4E82C2452EF0023DFF9 /* UserDefaultsManager.swift in Sources */,
 				7BC9E4482C21780C0023DFF9 /* AppDelegate.swift in Sources */,
-				68FF75082C24651C00B4A05B /* OnboardingViewModel.swift in Sources */,
 				7BC9E44A2C21780C0023DFF9 /* SceneDelegate.swift in Sources */,
 				7BC9E4EA2C24576F0023DFF9 /* MenuViewController.swift in Sources */,
 				7BC9E4682C21833F0023DFF9 /* UIFont + Extensions.swift in Sources */,

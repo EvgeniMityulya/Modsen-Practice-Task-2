@@ -1,14 +1,14 @@
 //
-//  OnboardingViewModel.swift
+//  OnboardingModel.swift
 //  Onboarding
 //
-//  Created by Denis Haritonenko on 20.06.24.
+//  Created by Denis Haritonenko on 21.06.24.
 //
 
 import Foundation
 import UIKit
 
-class OnboardingViewModel {
+class OnboardingModel {
     private var slides: [OnboardingSlide] = [
         OnboardingSlide(
             title: "Your first car without a driver's license",

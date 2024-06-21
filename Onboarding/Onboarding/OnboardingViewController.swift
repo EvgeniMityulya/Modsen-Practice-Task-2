@@ -9,7 +9,7 @@ import UIKit
 
 final class OnboardingViewController: UIViewController {
     
-    private var viewModel = OnboardingViewModel()
+    private var model = OnboardingModel()
     
     var currentPage = 0 {
         didSet {
@@ -55,7 +55,7 @@ final class OnboardingViewController: UIViewController {
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        for tag in 1...viewModel.numberOfSlides {
+        for tag in 1...model.numberOfSlides {
             let pageIndicator = UIView()
             pageIndicator.tag = tag
             pageIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -110,7 +110,7 @@ final class OnboardingViewController: UIViewController {
     }
     
     @objc func nextSlide() {
-        let maxSlide = viewModel.numberOfSlides
+        let maxSlide = model.numberOfSlides
         if currentPage < maxSlide - 1 {
             currentPage += 1
             self.updateCollectionViewPages()
@@ -126,19 +126,19 @@ final class OnboardingViewController: UIViewController {
     }
     
     @objc func skip() {
-        self.currentPage = viewModel.numberOfSlides - 1
+        self.currentPage = model.numberOfSlides - 1
         self.collectionView.scrollToItem(at: IndexPath(item: self.currentPage, section: 0), at: .centeredHorizontally, animated: true)
     }
 }
 
 extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.numberOfSlides
+        model.numberOfSlides
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OnboardingSlideCollectionViewCell.identifier, for: indexPath) as! OnboardingSlideCollectionViewCell
-        if let slide = viewModel.slide(at: indexPath.row) {
+        if let slide = model.slide(at: indexPath.row) {
             cell.configure(with: slide)
         }
         return cell
@@ -162,7 +162,7 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func isLastSlide() {
-        if self.currentPage == viewModel.numberOfSlides - 1 {
+        if self.currentPage == model.numberOfSlides - 1 {
             UserDefaultsManager.shared.save(true, forKey: UserDefaultsKey.isOnboardingComplete)
         }
     }
@@ -171,7 +171,7 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
 
 private extension OnboardingViewController {
     private func setShape() {
-        currentPageMultiplier = CGFloat(1) / CGFloat(viewModel.numberOfSlides)
+        currentPageMultiplier = CGFloat(1) / CGFloat(model.numberOfSlides)
         
         let nextStroke = UIBezierPath(arcCenter: CGPoint(x: 29, y: 29), radius: 28, startAngle: -(.pi/2), endAngle: (.pi * 3)/2, clockwise: true)
         
