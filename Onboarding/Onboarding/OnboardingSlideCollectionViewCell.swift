@@ -15,7 +15,7 @@ final class OnboardingSlideCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.spacing = 38
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -25,7 +25,7 @@ final class OnboardingSlideCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.spacing = 12
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -57,7 +57,7 @@ final class OnboardingSlideCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.layer.zPosition = 1
-        label.font = .sfPro(ofSize: 19, style: .regular)
+        label.font = .sfPro(ofSize: 18, style: .regular)
         return label
     }()
     
