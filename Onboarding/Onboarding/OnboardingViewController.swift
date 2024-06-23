@@ -9,48 +9,21 @@ import UIKit
 
 final class OnboardingViewController: UIViewController {
     
+    private var model = OnboardingModel()
+    
     var currentPage = 0 {
         didSet {
+            self.updateCollectionViewPages()
             self.updatePageControlAndProgressBar()
-            self.collectionView.scrollToItem(at: IndexPath(item: self.currentPage, section: 0), at: .centeredHorizontally, animated: true)
             self.isLastSlide()
         }
     }
-    
-    private var nextPage: Int = 0
-    
-    private var slides: [OnboardingSlide] = [
-        OnboardingSlide(
-            title: "Your first car without a driver's license",
-            desciption: "Goes to meet people who just got their license",
-            image: UIImage(named: Image.Onboarding.first),
-            color: UIColor.OnboardingColors.yellow
-        ),
-        OnboardingSlide(
-            title: "Always there: more than 1000 cars in Tbilisi",
-            desciption: "Our company is a leader by the number of cars in the fleet",
-            image: UIImage(named: Image.Onboarding.second),
-            color: UIColor.OnboardingColors.purple
-        ),
-        OnboardingSlide(
-            title: "Do not pay for parking, maintenance and gasoline",
-            desciption: "We will pay for you, all expenses related to the car",
-            image: UIImage(named: Image.Onboarding.third),
-            color: UIColor.OnboardingColors.orange
-        ),
-        OnboardingSlide(
-            title: "29 car models: from Skoda Octavia to Porsche 911",
-            desciption: "Choose between regular car models or exclusive ones",
-            image: UIImage(named: Image.Onboarding.fourth),
-            color: UIColor.OnboardingColors.blue
-        )
-    ]
-    
+        
     // Drawing stuff
     private var widthAnchor: NSLayoutConstraint?
     private var currentPageMultiplier: CGFloat = 0
     private let shape = CAShapeLayer()
-    private var previousAnimationVAlue: CGFloat  = 0
+    private var previousAnimationValue: CGFloat  = 0
     
     private var pageIndicators: [UIView] = []
     
@@ -65,6 +38,7 @@ final class OnboardingViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.register(OnboardingSlideCollectionViewCell.self, forCellWithReuseIdentifier: OnboardingSlideCollectionViewCell.identifier)
         return collectionView
     }()
@@ -82,7 +56,7 @@ final class OnboardingViewController: UIViewController {
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        for tag in 1...slides.count {
+        for tag in 1...model.numberOfSlides {
             let pageIndicator = UIView()
             pageIndicator.tag = tag
             pageIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -137,33 +111,35 @@ final class OnboardingViewController: UIViewController {
     }
     
     @objc func nextSlide() {
-        let maxSlide = slides.count
+        let maxSlide = model.numberOfSlides
         if currentPage < maxSlide - 1 {
             currentPage += 1
-            self.updateCollectionViewPages()
             print("next")
             print("current page is \(currentPage)")
         } else if currentPage == maxSlide - 1 {
             print("last")
-            // MARK: - Тут Переход на следующий контроллер
+                let vc = MenuViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            
         }
     }
     
     @objc func skip() {
-        self.currentPage = self.slides.count - 1
+        self.currentPage = model.numberOfSlides - 1
         self.collectionView.scrollToItem(at: IndexPath(item: self.currentPage, section: 0), at: .centeredHorizontally, animated: true)
     }
 }
 
 extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.slides.count
+        model.numberOfSlides
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OnboardingSlideCollectionViewCell.identifier, for: indexPath) as! OnboardingSlideCollectionViewCell
-        let slide = self.slides[indexPath.row]
-        cell.configure(with: slide)
+        if let slide = model.slide(at: indexPath.row) {
+            cell.configure(with: slide)
+        }
         return cell
     }
     
@@ -175,18 +151,25 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
         0
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        0
+    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let width = scrollView.frame.width
         self.currentPage = Int(scrollView.contentOffset.x / width)
-        
     }
     
     func updateCollectionViewPages() {
-        self.collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally, animated: true)
+        let indexPath = IndexPath(item: self.currentPage, section: 0)
+        
+        // MARK: - ERROR
+        self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        print(indexPath)
     }
     
     func isLastSlide() {
-        if self.currentPage == self.slides.count - 1 {
+        if self.currentPage == model.numberOfSlides - 1 {
             UserDefaultsManager.shared.save(true, forKey: UserDefaultsKey.isOnboardingComplete)
         }
     }
@@ -195,7 +178,7 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
 
 private extension OnboardingViewController {
     private func setShape() {
-        currentPageMultiplier = CGFloat(1) / CGFloat(slides.count)
+        currentPageMultiplier = CGFloat(1) / CGFloat(model.numberOfSlides)
         
         let nextStroke = UIBezierPath(arcCenter: CGPoint(x: 29, y: 29), radius: 28, startAngle: -(.pi/2), endAngle: (.pi * 3)/2, clockwise: true)
         
@@ -241,14 +224,14 @@ private extension OnboardingViewController {
         let currentIndex = currentPageMultiplier * CGFloat(currentIndicator)
         
         let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = previousAnimationVAlue
+        animation.fromValue = previousAnimationValue
         animation.toValue = currentIndex
         animation.isRemovedOnCompletion = false
         animation.fillMode = .forwards
         animation.duration = 0.5
         shape.add(animation, forKey: "animation")
         
-        previousAnimationVAlue = currentIndex
+        previousAnimationValue = currentIndex
     }
 }
 
@@ -289,23 +272,4 @@ private extension OnboardingViewController {
             self.nextButtonView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor),
         ])
     }
-    
-    //    func updateBackground(index: Int) {
-    //        switch index {
-    //        case 0:
-    //            self.view.backgroundColor = self.slides[0].color
-    //        case (slides.count - 1):
-    //            self.view.backgroundColor = self.slides[slides.count - 1].color
-    //        default:
-    //            self.view.backgroundColor = .clear
-    //        }
-    //        print(self.view.backgroundColor)
-    //
-    //    }
-    //
-    //    func updatePageControl() {
-    //        self.pageControl.currentPage = self.currentPage
-    //        let buttonText = (self.currentPage == self.slides.count - 1) ? ButtonText.getStarted.rawValue : ButtonText.next.rawValue
-    //        self.nextButton.setTitle(buttonText, for: .normal)
-    //    }
 }
