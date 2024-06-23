@@ -38,6 +38,7 @@ final class OnboardingViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.register(OnboardingSlideCollectionViewCell.self, forCellWithReuseIdentifier: OnboardingSlideCollectionViewCell.identifier)
         return collectionView
     }()
@@ -117,9 +118,9 @@ final class OnboardingViewController: UIViewController {
             print("current page is \(currentPage)")
         } else if currentPage == maxSlide - 1 {
             print("last")
-            // MARK: - Тут Переход на следующий контроллер
-            let vc = MenuViewController()
-            navigationController?.pushViewController(vc, animated: true)
+                let vc = MenuViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            
         }
     }
     

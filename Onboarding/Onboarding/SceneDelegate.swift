@@ -28,14 +28,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    private func setupViewController(with viewController: UIViewController) {
+    func setupViewController(with viewController: UIViewController) {
         let navController = UINavigationController(rootViewController: viewController)
         navController.isNavigationBarHidden = true
         
         // TODO: - ERROR IF UNCOMMNET
-//        self.window?.rootViewController = navController
+        self.window?.rootViewController = navController
         
-        self.window?.rootViewController = OnboardingViewController()
+//        self.window?.rootViewController = OnboardingViewController()
     }
 }
 
